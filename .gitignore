@@ -2,3 +2,5 @@
 /.project
 /.classpath
 /target
+/ocelli-grails/target-eclipse
+/ocelli-grails/target

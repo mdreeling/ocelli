@@ -9,7 +9,7 @@ public class SSHWebSocket extends WebSocketAdapter {
 	
 	private final SSHAppService ssh = new SSHAppService(
 			"E:\\Downloads\\web\\ocelli.pem", "ec2-user",
-			"bleh.us-west-2.compute.amazonaws.com");
+			"ec2-54-187-127-192.us-west-2.compute.amazonaws.com");
 	
 	@Override
 	public void onWebSocketConnect(Session sess) {
