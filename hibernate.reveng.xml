@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+  <table-filter match-catalog="ocelli" match-name="access_key"/>
+  <table-filter match-catalog="ocelli" match-name="access_key_type"/>
+  <table-filter match-catalog="ocelli" match-name="application"/>
+  <table-filter match-catalog="ocelli" match-name="application_environments"/>
+  <table-filter match-catalog="ocelli" match-name="artifact_type"/>
+  <table-filter match-catalog="ocelli" match-name="enivronment_nodes"/>
+  <table-filter match-catalog="ocelli" match-name="environment"/>
+  <table-filter match-catalog="ocelli" match-name="environment_type"/>
+  <table-filter match-catalog="ocelli" match-name="node"/>
+  <table-filter match-catalog="ocelli" match-name="node_access_keys"/>
+  <table-filter match-catalog="ocelli" match-name="node_artifact"/>
+  <table-filter match-catalog="ocelli" match-name="node_artifacts"/>
+  <table-filter match-catalog="ocelli" match-name="profile"/>
+  <table-filter match-catalog="ocelli" match-name="profile_applications"/>
+  <table-filter match-catalog="ocelli" match-name="user"/>
+  <table-filter match-catalog="ocelli" match-name="user_profiles"/>
+</hibernate-reverse-engineering>
