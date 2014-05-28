@@ -10,6 +10,7 @@ import javax.servlet.Servlet;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.skife.jdbi.v2.DBI;
 
+import com.dreeling.applications.ocelli.server.core.connectors.ElasticSearchConnector;
 import com.dreeling.applications.ocelli.server.dao.UserDao;
 import com.dreeling.applications.ocelli.server.domain.User;
 import com.dreeling.applications.ocelli.server.resources.HelloWorldResource;
@@ -61,7 +62,6 @@ public class OcelliServer extends Application<OcelliServerConfiguration> {
 			
 			User u = dao.findByEmail("mdreeling@riotgames.com");
 			System.out.println(u.getUserProfileses().size());
-			
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

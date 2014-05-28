@@ -3,6 +3,7 @@ package com.dreeling.applications.ocelli.server.ssh;
 import java.io.IOException;
 import java.io.InputStream;
 
+import com.dreeling.applications.ocelli.server.core.connectors.ElasticSearchConnector;
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
@@ -10,7 +11,9 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
 public class SSHAppService {
-
+	
+	ElasticSearchConnector n = new ElasticSearchConnector();
+	
 	Session session = null;
 
 	public SSHAppService(String authFile, String user, String host) {
@@ -51,7 +54,9 @@ public class SSHAppService {
 					int i = input.read(tmp, 0, 1024);
 					if (i < 0)
 						break;
-					System.out.println(new String(tmp, 0, i));
+					System.out.println("loading...");
+
+					n.postElasticSearch(session.getHost(), new String(tmp, 0, i), session.getUserName());
 				}
 				if (channel.isClosed()) {
 					System.out.println("exit-status: "
