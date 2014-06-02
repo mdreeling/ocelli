@@ -9,7 +9,7 @@ public class SSHWebSocket extends WebSocketAdapter {
 	
 	private final SSHAppService ssh = new SSHAppService(
 			"E:\\Downloads\\web\\ocelli.pem", "ec2-user",
-			"ec2-54-187-127-192.us-west-2.compute.amazonaws.com");
+			"ec2-54-187-127-192.us-west-2.compute.amazonaws.com", null);
 	
 	@Override
 	public void onWebSocketConnect(Session sess) {
@@ -21,7 +21,7 @@ public class SSHWebSocket extends WebSocketAdapter {
 	public void onWebSocketText(String message) {
 		super.onWebSocketText(message);
 		System.out.println("Received TEXT message: " + message);
-		ssh.downloadData();
+		ssh.streamData();
 	}
 
 	@Override

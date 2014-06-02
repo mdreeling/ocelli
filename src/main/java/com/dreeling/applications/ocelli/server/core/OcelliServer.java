@@ -10,17 +10,19 @@ import javax.servlet.Servlet;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.skife.jdbi.v2.DBI;
 
-import com.dreeling.applications.ocelli.server.core.connectors.ElasticSearchConnector;
+import com.dreeling.applications.ocelli.server.core.connectors.ESHealthCheck;
+import com.dreeling.applications.ocelli.server.core.managed.ESClientManager;
+import com.dreeling.applications.ocelli.server.core.managed.SSHStreamManager;
 import com.dreeling.applications.ocelli.server.dao.UserDao;
 import com.dreeling.applications.ocelli.server.domain.User;
-import com.dreeling.applications.ocelli.server.resources.HelloWorldResource;
+import com.dreeling.applications.ocelli.server.jobs.scheduler.JobsBundle;
+import com.dreeling.applications.ocelli.server.resources.CollectionResource;
 import com.dreeling.applications.ocelli.server.ssh.SSHAppService;
 import com.dreeling.applications.ocelli.server.websocket.raw.SSHDataWebSocketServlet;
 
 public class OcelliServer extends Application<OcelliServerConfiguration> {
 
-	SSHAppService ssh = new SSHAppService("E:\\Downloads\\web\\ocelli.pem",
-			"ec2-user", "ec2-54-187-127-192.us-west-2.compute.amazonaws.com");
+	SSHStreamManager mgr;
 
 	public static void main(String[] args) throws Exception {
 		new OcelliServer().run(args);
@@ -31,18 +33,37 @@ public class OcelliServer extends Application<OcelliServerConfiguration> {
 		return "ocelli-server";
 	}
 
+	/**
+	 * 
+	 * @param mgr
+	 */
+	public void setStreamManger(SSHStreamManager mgr) {
+		this.mgr = mgr;
+	}
+
 	@Override
 	public void initialize(Bootstrap<OcelliServerConfiguration> bootstrap) {
-		// nothing to do yet
+		System.out.println("Bootstrapping...");
+		JobsBundle bdl = new JobsBundle(
+				"com.dreeling.applications.ocelli.server.jobs");
+		bootstrap.addBundle(bdl);
 	}
 
 	@Override
 	public void run(OcelliServerConfiguration configuration,
 			Environment environment) {
 
-		final HelloWorldResource resource = new HelloWorldResource(
-				configuration.getTemplate(), configuration.getDefaultName());
 		try {
+
+			ESClientManager esClientManager = new ESClientManager(
+					configuration.getElasticsearchHost(),
+					configuration.getClusterName());
+			environment.lifecycle().manage(esClientManager);
+
+			final CollectionResource resource = new CollectionResource(
+					configuration.getTemplate(),
+					configuration.getDefaultName(), mgr, esClientManager);
+
 			environment.jersey().register(resource);
 			// Add a websocket to a specific path spec
 			ServletHolder holderEvents = new ServletHolder("ws-events",
@@ -59,9 +80,14 @@ public class OcelliServer extends Application<OcelliServerConfiguration> {
 			final DBI jdbi = factory.build(environment,
 					configuration.getDataSourceFactory(), "postgresql");
 			final UserDao dao = jdbi.onDemand(UserDao.class);
-			
+
 			User u = dao.findByEmail("mdreeling@riotgames.com");
 			System.out.println(u.getUserProfileses().size());
+
+			final ESHealthCheck esHealthCheck = new ESHealthCheck(
+					esClientManager);
+			environment.healthChecks().register("elasticsearch", esHealthCheck);
+
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

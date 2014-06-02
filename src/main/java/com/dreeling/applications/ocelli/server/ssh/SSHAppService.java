@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import com.dreeling.applications.ocelli.server.core.connectors.ElasticSearchConnector;
+import com.dreeling.applications.ocelli.server.core.managed.ESClientManager;
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
@@ -12,17 +13,18 @@ import com.jcraft.jsch.Session;
 
 public class SSHAppService {
 	
-	ElasticSearchConnector n = new ElasticSearchConnector();
+	ElasticSearchConnector n;
 	
 	Session session = null;
 
-	public SSHAppService(String authFile, String user, String host) {
+	public SSHAppService(String authFile, String user, String host, ESClientManager mgr) {
 		super();
 		try {
 			JSch jsch = new JSch();
 			JSch.setConfig("StrictHostKeyChecking", "no");
 			jsch.addIdentity(authFile); // "E:\\Downloads\\web\\ocelli.pem"
 			session = jsch.getSession(user, host, 22);
+			n = mgr.obtainClient();
 		} catch (JSchException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -32,7 +34,7 @@ public class SSHAppService {
 	/**
 	 * 
 	 */
-	public void downloadData() {
+	public void streamData() {
 		try {
 			// run stuff
 			session.connect();
