@@ -13,11 +13,12 @@ import org.skife.jdbi.v2.DBI;
 import com.dreeling.applications.ocelli.server.core.connectors.ESHealthCheck;
 import com.dreeling.applications.ocelli.server.core.managed.ESClientManager;
 import com.dreeling.applications.ocelli.server.core.managed.SSHStreamManager;
+import com.dreeling.applications.ocelli.server.dao.ApplicationDao;
+import com.dreeling.applications.ocelli.server.dao.ArtifactInfoDao;
 import com.dreeling.applications.ocelli.server.dao.UserDao;
 import com.dreeling.applications.ocelli.server.domain.User;
 import com.dreeling.applications.ocelli.server.jobs.scheduler.JobsBundle;
 import com.dreeling.applications.ocelli.server.resources.CollectionResource;
-import com.dreeling.applications.ocelli.server.ssh.SSHAppService;
 import com.dreeling.applications.ocelli.server.websocket.raw.SSHDataWebSocketServlet;
 
 public class OcelliServer extends Application<OcelliServerConfiguration> {
@@ -55,6 +56,13 @@ public class OcelliServer extends Application<OcelliServerConfiguration> {
 
 		try {
 
+			final DBIFactory factory = new DBIFactory();
+			final DBI jdbi = factory.build(environment,
+					configuration.getDataSourceFactory(), "postgresql");
+			final UserDao dao = jdbi.onDemand(UserDao.class);
+			final ApplicationDao appDao = jdbi.onDemand(ApplicationDao.class);
+			final ArtifactInfoDao artDao = jdbi.onDemand(ArtifactInfoDao.class);
+
 			ESClientManager esClientManager = new ESClientManager(
 					configuration.getElasticsearchHost(),
 					configuration.getClusterName());
@@ -62,7 +70,8 @@ public class OcelliServer extends Application<OcelliServerConfiguration> {
 
 			final CollectionResource resource = new CollectionResource(
 					configuration.getTemplate(),
-					configuration.getDefaultName(), mgr, esClientManager);
+					configuration.getDefaultName(), mgr, esClientManager,
+					appDao, artDao,dao);
 
 			environment.jersey().register(resource);
 			// Add a websocket to a specific path spec
@@ -70,19 +79,6 @@ public class OcelliServer extends Application<OcelliServerConfiguration> {
 					(Class<? extends Servlet>) SSHDataWebSocketServlet.class);
 			environment.getApplicationContext().addServlet(holderEvents,
 					"/rawEventSocket");
-
-			// DBIFactory factory = new DBIFactory();
-			// final DBI jdbi = factory.build(env,
-			// conf.getDatabaseConfiguration(), "postgresql");
-			// using in-memory H2 database here for simplicity during
-			// development
-			final DBIFactory factory = new DBIFactory();
-			final DBI jdbi = factory.build(environment,
-					configuration.getDataSourceFactory(), "postgresql");
-			final UserDao dao = jdbi.onDemand(UserDao.class);
-
-			User u = dao.findByEmail("mdreeling@riotgames.com");
-			System.out.println(u.getUserProfileses().size());
 
 			final ESHealthCheck esHealthCheck = new ESHealthCheck(
 					esClientManager);

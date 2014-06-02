@@ -7,9 +7,9 @@ import com.dreeling.applications.ocelli.server.ssh.SSHAppService;
 
 public class SSHWebSocket extends WebSocketAdapter {
 	
-	private final SSHAppService ssh = new SSHAppService(
-			"E:\\Downloads\\web\\ocelli.pem", "ec2-user",
-			"ec2-54-187-127-192.us-west-2.compute.amazonaws.com", null);
+	private final SSHAppService ssh = new SSHAppService(null,
+			null, null,"ec2-user",
+			null, null,null);
 	
 	@Override
 	public void onWebSocketConnect(Session sess) {

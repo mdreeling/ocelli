@@ -2,9 +2,6 @@ package com.dreeling.applications.grails.ocelli
 
 
 
-import com.dreeling.applications.grails.ocelli.AccessKey;
-import com.dreeling.applications.grails.ocelli.AccessKeyController;
-
 import grails.test.mixin.*
 import spock.lang.*
 

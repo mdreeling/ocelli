@@ -7,12 +7,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
-import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
@@ -20,6 +18,8 @@ import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.dreeling.applications.ocelli.server.domain.User;
+import com.dreeling.applications.ocelli.server.dto.ArtifactInfoDTO;
 import com.dreeling.applications.ocelli.server.jobs.scheduler.AdHocJob;
 import com.dreeling.applications.ocelli.server.jobs.scheduler.Job;
 import com.google.common.collect.Sets;
@@ -70,7 +70,7 @@ public class SSHStreamManager implements Managed {
 						annotatedClasses).immutableCopy().asList();
 	}
 
-	public void scheduleAdHocJob(ESClientManager es) throws SchedulerException {
+	public void scheduleAdHocJob(ESClientManager es,ArtifactInfoDTO art,User u) throws SchedulerException {
 		List<Class<? extends Job>> startJobClasses = getJobClasses(AdHocJob.class);
 		log.info("Jobs to run on application start: " + startJobClasses);
 		for (Class<? extends org.quartz.Job> clazz : startJobClasses) {
@@ -78,6 +78,8 @@ public class SSHStreamManager implements Managed {
 			JobDetail jd = jobBuilder.build();
 			jd.getJobDataMap().put("app-id", 99999);
 			scheduler.getContext().put("externalInstance", es);
+			scheduler.getContext().put("artifactInfo", art);
+			scheduler.getContext().put("userInfo", u);
 			scheduler.scheduleJob(jd, executeNowTrigger());
 		}
 	}

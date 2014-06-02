@@ -29,7 +29,6 @@
 						<g:sortableColumn property="data" title="${message(code: 'accessKey.data.label', default: 'Data')}" />
 					
 						<g:sortableColumn property="principal" title="${message(code: 'accessKey.principal.label', default: 'Principal')}" />
-					
 					</tr>
 				</thead>
 				<tbody>

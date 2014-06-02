@@ -2,9 +2,6 @@ package com.dreeling.applications.grails.ocelli
 
 
 
-import com.dreeling.applications.grails.ocelli.User;
-import com.dreeling.applications.grails.ocelli.UserController;
-
 import grails.test.mixin.*
 import spock.lang.*
 

@@ -59,8 +59,7 @@
 						<span class="property-value" aria-labelledby="principal-label"><g:fieldValue bean="${accessKeyInstance}" field="principal"/></span>
 					
 				</li>
-				</g:if>
-			
+				</g:if>			
 			</ol>
 			<g:form url="[resource:accessKeyInstance, action:'delete']" method="DELETE">
 				<fieldset class="buttons">

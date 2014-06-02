@@ -2,9 +2,6 @@ package com.dreeling.applications.grails.ocelli
 
 
 
-import com.dreeling.applications.grails.ocelli.Application;
-import com.dreeling.applications.grails.ocelli.ApplicationController;
-
 import grails.test.mixin.*
 import spock.lang.*
 

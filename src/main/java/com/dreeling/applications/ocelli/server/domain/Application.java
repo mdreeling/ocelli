@@ -10,6 +10,11 @@ import java.util.Set;
  */
 public class Application implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private int appId;
 	private String appDesc;
 	private String appName;
@@ -30,8 +35,6 @@ public class Application implements java.io.Serializable {
 		this.appId = appId;
 		this.appDesc = appDesc;
 		this.appName = appName;
-		this.profileApplicationses = profileApplicationses;
-		this.environments = environments;
 	}
 
 	public int getAppId() {

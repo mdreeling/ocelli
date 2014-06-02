@@ -2,6 +2,15 @@
 
 
 
+<div class="fieldcontain ${hasErrors(bean: userInstance, field: 'accessKey', 'error')} required">
+	<label for="accessKey">
+		<g:message code="user.accessKey.label" default="Access Key" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:select id="accessKey" name="accessKey.id" from="${com.dreeling.applications.grails.ocelli.AccessKey.list()}" optionKey="id" required="" value="${userInstance?.accessKey?.id}" class="many-to-one"/>
+
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: userInstance, field: 'email', 'error')} ">
 	<label for="email">
 		<g:message code="user.email.label" default="Email" />

@@ -41,6 +41,17 @@
 				</li>
 				</g:if>
 			
+				<g:if test="${applicationInstance?.artifacts}">
+				<li class="fieldcontain">
+					<span id="artifacts-label" class="property-label"><g:message code="application.artifacts.label" default="Artifacts" /></span>
+					
+						<g:each in="${applicationInstance.artifacts}" var="a">
+						<span class="property-value" aria-labelledby="artifacts-label"><g:link controller="artifact" action="show" id="${a.id}">${a?.encodeAsHTML()}</g:link></span>
+						</g:each>
+					
+				</li>
+				</g:if>
+			
 				<g:if test="${applicationInstance?.environments}">
 				<li class="fieldcontain">
 					<span id="environments-label" class="property-label"><g:message code="application.environments.label" default="Environments" /></span>

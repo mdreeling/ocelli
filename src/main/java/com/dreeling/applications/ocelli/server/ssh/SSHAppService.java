@@ -12,19 +12,21 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
 public class SSHAppService {
-	
-	ElasticSearchConnector n;
-	
-	Session session = null;
 
-	public SSHAppService(String authFile, String user, String host, ESClientManager mgr) {
+	ElasticSearchConnector n;
+
+	Session session = null;
+	String artifactLocation;
+	public SSHAppService(String privateKey, String publicKey,
+			String passPhrase, String user, String host, ESClientManager mgr, String artifactLocation) {
 		super();
 		try {
 			JSch jsch = new JSch();
 			JSch.setConfig("StrictHostKeyChecking", "no");
-			jsch.addIdentity(authFile); // "E:\\Downloads\\web\\ocelli.pem"
+			jsch.addIdentity("key-pair", privateKey.getBytes(), publicKey.getBytes(), (byte[])null);
 			session = jsch.getSession(user, host, 22);
 			n = mgr.obtainClient();
+			this.artifactLocation = artifactLocation;
 		} catch (JSchException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -39,7 +41,7 @@ public class SSHAppService {
 			// run stuff
 			session.connect();
 
-			String command = "tail -100000 /logs-a/SUSY.csv";
+			String command = "tail -100000 "+artifactLocation;
 			Channel channel = session.openChannel("exec");
 			((ChannelExec) channel).setCommand(command);
 			channel.setInputStream(null);
@@ -51,14 +53,15 @@ public class SSHAppService {
 			InputStream input = channel.getInputStream();
 			// start reading the input from the executed commands on the shell
 			byte[] tmp = new byte[1024];
+			System.out.println("Loading data to Elastic Search @"
+					+ System.currentTimeMillis() + "...");
 			while (true) {
 				while (input.available() > 0) {
 					int i = input.read(tmp, 0, 1024);
 					if (i < 0)
 						break;
-					System.out.println("loading...");
-
-					n.postElasticSearch(session.getHost(), new String(tmp, 0, i), session.getUserName());
+					n.postElasticSearch(session.getHost(),
+							new String(tmp, 0, i), session.getUserName());
 				}
 				if (channel.isClosed()) {
 					System.out.println("exit-status: "

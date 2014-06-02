@@ -24,6 +24,8 @@
 			<thead>
 					<tr>
 					
+						<th><g:message code="user.accessKey.label" default="Access Key" /></th>
+					
 						<g:sortableColumn property="dateCreated" title="${message(code: 'user.dateCreated.label', default: 'Date Created')}" />
 					
 						<g:sortableColumn property="email" title="${message(code: 'user.email.label', default: 'Email')}" />
@@ -40,7 +42,9 @@
 				<g:each in="${userInstanceList}" status="i" var="userInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${userInstance.id}">${fieldValue(bean: userInstance, field: "dateCreated")}</g:link></td>
+						<td><g:link action="show" id="${userInstance.id}">${fieldValue(bean: userInstance, field: "accessKey")}</g:link></td>
+					
+						<td><g:formatDate date="${userInstance.dateCreated}" /></td>
 					
 						<td>${fieldValue(bean: userInstance, field: "email")}</td>
 					

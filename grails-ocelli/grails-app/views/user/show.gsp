@@ -23,6 +23,15 @@
 			</g:if>
 			<ol class="property-list user">
 			
+				<g:if test="${userInstance?.accessKey}">
+				<li class="fieldcontain">
+					<span id="accessKey-label" class="property-label"><g:message code="user.accessKey.label" default="Access Key" /></span>
+					
+						<span class="property-value" aria-labelledby="accessKey-label"><g:link controller="accessKey" action="show" id="${userInstance?.accessKey?.id}">${userInstance?.accessKey?.encodeAsHTML()}</g:link></span>
+					
+				</li>
+				</g:if>
+			
 				<g:if test="${userInstance?.dateCreated}">
 				<li class="fieldcontain">
 					<span id="dateCreated-label" class="property-label"><g:message code="user.dateCreated.label" default="Date Created" /></span>

@@ -15,16 +15,19 @@ public class User implements java.io.Serializable {
 	private String email;
 	private String password;
 	private Date createTime;
+	private String accessKey;
+
 	private Set<UserProfiles> userProfileses = new HashSet<UserProfiles>(0);
 
 	public User() {
 	}
 
-	public User(String userId, String email, String password, Date createTime) {
+	public User(String userId, String email, String password, Date createTime, String accessKey) {
 		this.userId = userId;
 		this.email = email;
 		this.password = password;
 		this.createTime = createTime;
+		this.accessKey = accessKey;
 	}
 
 	public User(String userId, String email, String password, Date createTime,
@@ -36,40 +39,48 @@ public class User implements java.io.Serializable {
 		this.userProfileses = userProfileses;
 	}
 
-	public String getUserId() {
-		return this.userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-
-	public String getEmail() {
-		return this.email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPassword() {
-		return this.password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
+	public String getAccessKey() {
+		return accessKey;
 	}
 
 	public Date getCreateTime() {
 		return this.createTime;
 	}
 
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
+	public String getEmail() {
+		return this.email;
+	}
+
+	public String getPassword() {
+		return this.password;
+	}
+
+	public String getUserId() {
+		return this.userId;
 	}
 
 	public Set<UserProfiles> getUserProfileses() {
 		return this.userProfileses;
+	}
+
+	public void setAccessKey(String accessKey) {
+		this.accessKey = accessKey;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public void setUserProfileses(Set<UserProfiles> userProfileses) {

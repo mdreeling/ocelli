@@ -20,6 +20,15 @@
 
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: applicationInstance, field: 'artifacts', 'error')} ">
+	<label for="artifacts">
+		<g:message code="application.artifacts.label" default="Artifacts" />
+		
+	</label>
+	<g:select name="artifacts" from="${com.dreeling.applications.grails.ocelli.Artifact.list()}" multiple="multiple" optionKey="id" size="5" value="${applicationInstance?.artifacts*.id}" class="many-to-many"/>
+
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: applicationInstance, field: 'environments', 'error')} ">
 	<label for="environments">
 		<g:message code="application.environments.label" default="Environments" />

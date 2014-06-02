@@ -8,6 +8,6 @@ class AccessKey {
     static constraints = {
     }
 	static mapping = {
-		myTextField type: 'text'
+		data type: 'text'
 	 }
 }

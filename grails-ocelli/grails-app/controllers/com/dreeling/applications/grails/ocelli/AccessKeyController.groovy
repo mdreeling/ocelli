@@ -3,9 +3,6 @@ package com.dreeling.applications.grails.ocelli
 
 
 import static org.springframework.http.HttpStatus.*
-
-import com.dreeling.applications.grails.ocelli.AccessKey;
-
 import grails.transaction.Transactional
 
 @Transactional(readOnly = true)

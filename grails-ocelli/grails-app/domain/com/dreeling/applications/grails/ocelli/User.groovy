@@ -8,6 +8,7 @@ class User {
 	String password
 	Date dateCreated
     Date lastUpdated
+	AccessKey accessKey
     static hasMany = [profiles: Profile]
     static constraints = {
     }
