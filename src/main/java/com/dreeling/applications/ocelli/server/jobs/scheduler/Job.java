@@ -14,6 +14,7 @@ import com.codahale.metrics.Timer.Context;
 import com.dreeling.applications.ocelli.server.core.managed.ESClientManager;
 import com.dreeling.applications.ocelli.server.domain.User;
 import com.dreeling.applications.ocelli.server.dto.ArtifactInfoDTO;
+import com.dreeling.applications.ocelli.server.util.Utils;
 
 public abstract class Job implements org.quartz.Job {
     public static final String DROPWIZARD_JOBS_KEY = "dropwizard-jobs";
@@ -33,9 +34,9 @@ public abstract class Job implements org.quartz.Job {
         Context timerContext = timer.time();
         try {
         	
-        	ESClientManager esMgr= (ESClientManager)context.getScheduler().getContext().get("elasticSearchInstance");
-        	ArtifactInfoDTO art= (ArtifactInfoDTO)context.getScheduler().getContext().get("artifactInfo");
-        	User user = (User)context.getScheduler().getContext().get("userInfo");
+        	ESClientManager esMgr= (ESClientManager)context.getScheduler().getContext().get(Utils.ELASTIC_SEARCH_INSTANCE);
+        	ArtifactInfoDTO art= (ArtifactInfoDTO)context.getScheduler().getContext().get(Utils.ARTIFACT_INFO);
+        	User user = (User)context.getScheduler().getContext().get(Utils.USER_INFO);
             doJob(context.getJobDetail().getJobDataMap(), esMgr, art,user);
             
         } catch (SchedulerException e) {

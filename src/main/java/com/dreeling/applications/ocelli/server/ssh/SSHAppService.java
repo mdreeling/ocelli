@@ -17,13 +17,22 @@ public class SSHAppService {
 
 	Session session = null;
 	String artifactLocation;
+
 	public SSHAppService(String privateKey, String publicKey,
-			String passPhrase, String user, String host, ESClientManager mgr, String artifactLocation) {
+			String passPhrase, String user, String host, ESClientManager mgr,
+			String artifactLocation) {
 		super();
 		try {
+
 			JSch jsch = new JSch();
 			JSch.setConfig("StrictHostKeyChecking", "no");
-			jsch.addIdentity("key-pair", privateKey.getBytes(), publicKey.getBytes(), (byte[])null);
+			
+			/**
+			 * Just load the private key here - nothing else is required.
+			 */
+			jsch.addIdentity("key-pair", privateKey.getBytes(),
+					(byte[])null, (byte[])null);
+					
 			session = jsch.getSession(user, host, 22);
 			n = mgr.obtainClient();
 			this.artifactLocation = artifactLocation;
@@ -41,7 +50,7 @@ public class SSHAppService {
 			// run stuff
 			session.connect();
 
-			String command = "tail -100000 "+artifactLocation;
+			String command = "tail -100000 " + artifactLocation;
 			Channel channel = session.openChannel("exec");
 			((ChannelExec) channel).setCommand(command);
 			channel.setInputStream(null);

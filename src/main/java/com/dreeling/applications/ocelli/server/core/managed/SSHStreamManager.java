@@ -22,6 +22,7 @@ import com.dreeling.applications.ocelli.server.domain.User;
 import com.dreeling.applications.ocelli.server.dto.ArtifactInfoDTO;
 import com.dreeling.applications.ocelli.server.jobs.scheduler.AdHocJob;
 import com.dreeling.applications.ocelli.server.jobs.scheduler.Job;
+import com.dreeling.applications.ocelli.server.util.Utils;
 import com.google.common.collect.Sets;
 
 /**
@@ -70,16 +71,17 @@ public class SSHStreamManager implements Managed {
 						annotatedClasses).immutableCopy().asList();
 	}
 
-	public void scheduleAdHocJob(ESClientManager es,ArtifactInfoDTO art,User u) throws SchedulerException {
+	public void scheduleAdHocJob(ESClientManager es, ArtifactInfoDTO art, User u)
+			throws SchedulerException {
 		List<Class<? extends Job>> startJobClasses = getJobClasses(AdHocJob.class);
 		log.info("Jobs to run on application start: " + startJobClasses);
 		for (Class<? extends org.quartz.Job> clazz : startJobClasses) {
 			JobBuilder jobBuilder = JobBuilder.newJob(clazz);
 			JobDetail jd = jobBuilder.build();
 			jd.getJobDataMap().put("app-id", 99999);
-			scheduler.getContext().put("externalInstance", es);
-			scheduler.getContext().put("artifactInfo", art);
-			scheduler.getContext().put("userInfo", u);
+			scheduler.getContext().put(Utils.ELASTIC_SEARCH_INSTANCE, es);
+			scheduler.getContext().put(Utils.ARTIFACT_INFO, art);
+			scheduler.getContext().put(Utils.USER_INFO, u);
 			scheduler.scheduleJob(jd, executeNowTrigger());
 		}
 	}

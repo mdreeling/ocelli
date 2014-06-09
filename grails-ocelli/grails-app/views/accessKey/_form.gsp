@@ -16,7 +16,7 @@
 		<g:message code="accessKey.data.label" default="Data" />
 		
 	</label>
-	<g:textField name="data" value="${accessKeyInstance?.data}"/>
+	<g:textArea name="data" value="${accessKeyInstance?.data}" rows="5" cols="40"/>
 
 </div>
 
