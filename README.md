@@ -15,3 +15,9 @@ Ocelli requires the following in order to function
 * MySQL (Stores Application profiles and SSH Server information)
 * ElasticSearch (Document Storage) 
 * Kibana (UI)
+
+#Running via Docker
+
+Use
+
+docker run -p 80:80 ocell_server_1
