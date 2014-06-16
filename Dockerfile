@@ -14,10 +14,6 @@ RUN sudo apt-get install -y git-core
 # Get Source
 RUN git clone https://github.com/mdreeling/ocelli /opt/ocelli
 
-# Config
-ADD ./start-server.sh /usr/bin/start-server
-RUN chmod +x /usr/bin/start-server
-
 # Basics
 RUN sudo apt-get install -y curl
 RUN sudo apt-get install -y unzip
@@ -48,6 +44,10 @@ RUN /usr/bin/install-grails
 
 # Expose ports
 EXPOSE 80
+
+# Config
+ADD ./start-server.sh /usr/bin/start-server
+RUN chmod +x /usr/bin/start-server
 
 # Set the default command to execute
 # when creating a new container
