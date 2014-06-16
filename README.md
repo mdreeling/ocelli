@@ -18,6 +18,7 @@ Ocelli requires the following in order to function
 
 #Running via Docker
 
-Use
+On a Docker enabled host
 
-docker run -p 80:80 ocell_server_1
+sudo docker build -t mdreeling/ocelli-server github.com/mdreeling/ocelli
+sudo docker run -p 80:80 mdreeling/ocelli-server
