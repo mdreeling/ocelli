@@ -23,3 +23,9 @@ On a Docker enabled host
 sudo docker build -t mdreeling/ocelli-server github.com/mdreeling/ocelli
 
 sudo docker run -p 80:80 mdreeling/ocelli-server
+
+or alternatively
+
+sudo docker pull mdreeling/ocelli-server
+
+sudo docker run -i -t -p 80:8090 mdreeling/ocelli-server:latest /opt/ocelli/start-server.sh
