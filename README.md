@@ -28,4 +28,4 @@ or alternatively
 
 sudo docker pull mdreeling/ocelli-server
 
-sudo docker run -i -t -p 80:8090 mdreeling/ocelli-server:latest /opt/ocelli/start-server.sh
+ sudo docker run -i -t -p 80:80 -p 8090:8090 mdreeling/ocelli-server:latest /opt/ocelli/start-server.sh
