@@ -24,7 +24,7 @@ environments {
         dataSource {
             dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
             //url = "jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE"
-			url = "jdbc:mysql://ocelli-server.cximaxs7x3ws.us-west-2.rds.amazonaws.com/ocelli_grails?useUnicode=yes&characterEncoding=UTF-8"
+			url = "jdbc:mysql://ocelli-server.cximaxs7x3ws.us-west-2.rds.amazonaws.com:3306/ocelli_grails?useUnicode=yes&characterEncoding=UTF-8"
 			username = "ocelli"
 			password = "test"
         }
