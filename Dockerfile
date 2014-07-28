@@ -12,7 +12,7 @@ RUN sudo apt-get update
 RUN sudo apt-get install -y git-core
 
 RUN rm -fR /opt/ocelli
-ADD ./config/ocelli /opt/ocelli
+RUN mkdir /opt/ocelli
 # Get Source
 RUN git clone https://github.com/mdreeling/ocelli /opt/ocelli
 
