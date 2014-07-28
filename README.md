@@ -20,12 +20,16 @@ Ocelli requires the following in order to function
 
 On a Docker enabled host
 
-sudo docker build -t mdreeling/ocelli-server github.com/mdreeling/ocelli
-
-sudo docker run -p 80:80 mdreeling/ocelli-server
+* sudo docker build -t mdreeling/ocelli-server github.com/mdreeling/ocelli
+* sudo docker run -p 80:80 mdreeling/ocelli-server
 
 or alternatively
 
 sudo docker pull mdreeling/ocelli-server
 
- sudo docker run -i -t -p 80:80 -p 8090:8090 mdreeling/ocelli-server:latest /opt/ocelli/start-server.sh
+* sudo docker run -i -t -p 80:80 -p 8090:8090 mdreeling/ocelli-server:latest /usr/bin/start-server
+
+To update a box already running Ocelli to the latest GitHub version and run it
+
+* sudo docker build -t mdreeling/ocelli-server github.com/mdreeling/ocelli
+* sudo docker run -i -d -t -p 80:80 -p 8090:8090 mdreeling/ocelli-server:latest /usr/bin/start-server
