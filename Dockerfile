@@ -11,6 +11,7 @@ MAINTAINER Mick Dreeling
 RUN sudo apt-get update
 RUN sudo apt-get install -y git-core
 
+ADD ./config/ocelli /opt/ocelli
 # Get Source
 RUN git clone https://github.com/mdreeling/ocelli /opt/ocelli
 
