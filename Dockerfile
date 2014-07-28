@@ -11,21 +11,14 @@ MAINTAINER Mick Dreeling
 RUN sudo apt-get update
 RUN sudo apt-get install -y git-core
 
-RUN rm -fR /opt/ocelli
-RUN mkdir /opt/ocelli
-# Get Source
-RUN git clone https://github.com/mdreeling/ocelli /opt/ocelli
-
 # Basics
 RUN sudo apt-get install -y curl
 RUN sudo apt-get install -y unzip
 
-# Install Nginx
-
 # Add application repository URL to the default sources
 RUN echo "deb http://archive.ubuntu.com/ubuntu/ raring main universe" >> /etc/apt/sources.list
 
-# Update the repository
+# Install Nginx
 RUN apt-get install -y nano wget dialog net-tools
 RUN apt-get install -y nginx
 
@@ -41,6 +34,12 @@ RUN sudo dpkg -i elasticsearch-1.2.1.deb
 
 ADD ./config/kibana-3.1.0.zip /usr/share/nginx/html/kibana-3.1.0.zip
 RUN unzip /usr/share/nginx/html/kibana-3.1.0.zip
+
+#  Clear out the source
+RUN rm -fR /opt/ocelli
+RUN mkdir /opt/ocelli
+# Get Source for Ocelli
+RUN git clone https://github.com/mdreeling/ocelli /opt/ocelli
 
 # Add NGinx Conf for Kibana
 ADD ./config/default /etc/nginx/sites-available/default
