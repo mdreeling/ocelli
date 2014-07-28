@@ -37,7 +37,7 @@ RUN sudo apt-get install openjdk-7-jdk -y
 RUN wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.2.1.deb
 RUN sudo dpkg -i elasticsearch-1.2.1.deb
 
-ADD ./config/kibana-3.1.0.zip /usr/share/nginx/html
+ADD ./config/kibana-3.1.0.zip /usr/share/nginx/html/kibana-3.1.0.zip
 RUN unzip /usr/share/nginx/html/kibana-3.1.0.zip
 
 # Add NGinx Conf for Kibana
