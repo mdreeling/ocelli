@@ -157,22 +157,57 @@
 
 <script type="text/javascript">
 	
-	// DO NOT REMOVE : GLOBAL FUNCTIONS!
+	/* DO NOT REMOVE : GLOBAL FUNCTIONS!
+	 *
+	 * pageSetUp(); WILL CALL THE FOLLOWING FUNCTIONS
+	 *
+	 * // activate tooltips
+	 * $("[rel=tooltip]").tooltip();
+	 *
+	 * // activate popovers
+	 * $("[rel=popover]").popover();
+	 *
+	 * // activate popovers with hover states
+	 * $("[rel=popover-hover]").popover({ trigger: "hover" });
+	 *
+	 * // activate inline charts
+	 * runAllCharts();
+	 *
+	 * // setup widgets
+	 * setup_widgets_desktop();
+	 *
+	 * // run form elements
+	 * runAllForms();
+	 *
+	 ********************************
+	 *
+	 * pageSetUp() is needed whenever you load a page.
+	 * It initializes and checks for all basic elements of the page
+	 * and makes rendering easier.
+	 *
+	 */
 
+	//pageSetUp();
+	
+	//here we only run
 	runAllForms();
 
 	 // PAGE RELATED SCRIPTS
 
 	$(".table-wrap [rel=tooltip]").tooltip();
 
+	/*
+	 * SUMMERNOTE EDITOR
+	 */
+	loadScript("js/plugin/summernote/summernote.min.js", iniEmailBody);
 
-
-    $('#emailbody').summernote({
-        height: 250,
-        focus: false,
-        tabsize: 2
-    });
-
+	function iniEmailBody() {
+	    $('#emailbody').summernote({
+	        height: '100%',
+	        focus: false,
+	        tabsize: 2
+	    });
+	}
 
 	$(".show-next").click(function () {
 	    $this = $(this);
@@ -191,9 +226,7 @@
 
 
 	        // Load inbox once send is complete
-	
-			loadURL("ajax/email/email-list.html", $('#inbox-content > .table-wrap'))
-
+	        loadURL("ajax/email/email-list.html", $('#inbox-content > .table-wrap'))
 
 	    }, 1000); // how long do you want the delay to be? 
 	});

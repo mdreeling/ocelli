@@ -8,6 +8,8 @@ class UrlMappings {
         }
 
         "/"(view:"/index")
+		"/old"(view:"/index_default")
         "500"(view:'/error')
+		"/ajax/applications"(view:'application/index')
 	}
 }

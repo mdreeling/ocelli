@@ -1,4 +1,4 @@
-<%@ page import="com.dreeling.applications.grails.ocelli.Application"%>
+<%@ page import="com.dreeling.applications.grails.ocelli.Application" %>
 <div class="row">
 	<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
 		<h1 class="page-title txt-color-blueDark">
@@ -76,7 +76,7 @@
 								<thead>
 									<tr>
 										<th>Name</th>
-										<th>Description</th>
+										<th>Description ${applicationInstanceList}</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -84,10 +84,9 @@
 										var="applicationInstance">
 										<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 
-											<td><a
-												href="#http://ec2-54-186-126-35.us-west-2.compute.amazonaws.com/#/dashboard/file/default.json">
+											<td><g:link action="show" id="${applicationInstance.id}">
 													${fieldValue(bean: applicationInstance, field: "appDescription")}
-											</a></td>
+												</g:link></td>
 
 											<td>
 												${fieldValue(bean: applicationInstance, field: "appName")}
