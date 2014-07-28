@@ -28,7 +28,7 @@ RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 # Install ElasticSearch
 
 RUN cd ~
-RUN sudo apt-get install openjdk-7-jdk -y
+RUN sudo apt-get install openjdk-7-jdk -y --fix-missing
 RUN wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.2.1.deb
 RUN sudo dpkg -i elasticsearch-1.2.1.deb
 
