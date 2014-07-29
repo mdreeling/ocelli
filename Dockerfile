@@ -33,7 +33,7 @@ RUN wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elastics
 RUN sudo dpkg -i elasticsearch-1.2.1.deb
 
 ADD ./config/kibana-3.1.0.zip /usr/share/nginx/html/kibana-3.1.0.zip
-RUN unzip /usr/share/nginx/html/kibana-3.1.0.zip
+RUN unzip -o /usr/share/nginx/html/kibana-3.1.0.zip
 
 #  Clear out the source
 RUN rm -fR /opt/ocelli
