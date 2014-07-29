@@ -85,7 +85,7 @@
 										<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 
 											<td><a
-												href="#http://ec2-54-186-126-35.us-west-2.compute.amazonaws.com/#/dashboard/file/default.json">
+												href="#http://ocelli.dreeling.com/#/dashboard/file/default.json">
 													${fieldValue(bean: applicationInstance, field: "appDescription")}
 											</a></td>
 
