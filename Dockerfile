@@ -34,6 +34,7 @@ RUN sudo dpkg -i elasticsearch-1.2.1.deb
 
 ADD ./config/kibana-3.1.0.zip /tmp/kibana-3.1.0.zip
 RUN unzip -o /tmp/kibana-3.1.0.zip -d /usr/share/nginx/html/
+ADD ./config/config.js /usr/share/nginx/html/config.js 
 
 #  Clear out the source
 RUN rm -fR /opt/ocelli
