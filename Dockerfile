@@ -32,8 +32,8 @@ RUN sudo apt-get install openjdk-7-jdk -y --fix-missing
 RUN wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.2.1.deb
 RUN sudo dpkg -i elasticsearch-1.2.1.deb
 
-ADD ./config/kibana-3.1.0.zip /usr/share/nginx/html/kibana-3.1.0.zip
-RUN unzip -o /usr/share/nginx/html/kibana-3.1.0.zip
+ADD ./config/kibana-3.1.0.zip /tmp/kibana-3.1.0.zip
+RUN unzip -o /tmp/kibana-3.1.0.zip -d /usr/share/nginx/html/
 
 #  Clear out the source
 RUN rm -fR /opt/ocelli
