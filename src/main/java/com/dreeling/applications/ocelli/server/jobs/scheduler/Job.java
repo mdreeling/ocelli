@@ -33,10 +33,11 @@ public abstract class Job implements org.quartz.Job {
     public void execute(JobExecutionContext context) throws JobExecutionException {
         Context timerContext = timer.time();
         try {
+        	int jobHashCode = context.getJobDetail().getJobDataMap().getInt("job-id");
         	
         	ESClientManager esMgr= (ESClientManager)context.getScheduler().getContext().get(Utils.ELASTIC_SEARCH_INSTANCE);
-        	ArtifactInfoDTO art= (ArtifactInfoDTO)context.getScheduler().getContext().get(Utils.ARTIFACT_INFO);
-        	User user = (User)context.getScheduler().getContext().get(Utils.USER_INFO);
+        	ArtifactInfoDTO art= (ArtifactInfoDTO)context.getScheduler().getContext().get(jobHashCode+Utils.ARTIFACT_INFO);
+        	User user = (User)context.getScheduler().getContext().get(jobHashCode+Utils.USER_INFO);
             doJob(context.getJobDetail().getJobDataMap(), esMgr, art,user);
             
         } catch (SchedulerException e) {

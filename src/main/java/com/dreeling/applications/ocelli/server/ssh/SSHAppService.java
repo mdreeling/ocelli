@@ -3,6 +3,9 @@ package com.dreeling.applications.ocelli.server.ssh;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.dreeling.applications.ocelli.server.core.connectors.ElasticSearchConnector;
 import com.dreeling.applications.ocelli.server.core.managed.ESClientManager;
 import com.jcraft.jsch.Channel;
@@ -12,7 +15,9 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
 public class SSHAppService {
-
+	
+	private static final Logger logger = LoggerFactory.getLogger(SSHAppService.class);
+	
 	ElasticSearchConnector n;
 
 	Session session = null;
@@ -23,7 +28,9 @@ public class SSHAppService {
 			String artifactLocation) {
 		super();
 		try {
-
+			
+			logger.debug("Connecting to "+host+" as "+user);
+			
 			JSch jsch = new JSch();
 			JSch.setConfig("StrictHostKeyChecking", "no");
 			
@@ -49,7 +56,9 @@ public class SSHAppService {
 		try {
 			// run stuff
 			session.connect();
-
+			
+			logger.debug("Connected to "+session.getHost()+" as "+session.getUserName());
+			
 			String command = "tail -100000 " + artifactLocation;
 			Channel channel = session.openChannel("exec");
 			((ChannelExec) channel).setCommand(command);
@@ -62,7 +71,7 @@ public class SSHAppService {
 			InputStream input = channel.getInputStream();
 			// start reading the input from the executed commands on the shell
 			byte[] tmp = new byte[1024];
-			System.out.println("Loading data to Elastic Search @"
+			logger.debug("Loading data to Elastic Search @"
 					+ System.currentTimeMillis() + "...");
 			while (true) {
 				while (input.available() > 0) {
@@ -73,7 +82,7 @@ public class SSHAppService {
 							new String(tmp, 0, i), session.getUserName());
 				}
 				if (channel.isClosed()) {
-					System.out.println("exit-status: "
+					logger.error("exit-status: "
 							+ channel.getExitStatus());
 					break;
 				}
@@ -82,11 +91,9 @@ public class SSHAppService {
 			channel.disconnect();
 			session.disconnect();
 		} catch (JSchException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("JSchException while connecting and streaming ["+artifactLocation+"] from "+session.getHost(), e);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("IOException while connecting and streaming ["+artifactLocation+"] from "+session.getHost(), e);
 		}
 	}
 }

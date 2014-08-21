@@ -9,6 +9,8 @@ import javax.servlet.Servlet;
 
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.skife.jdbi.v2.DBI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.dreeling.applications.ocelli.server.core.connectors.ESHealthCheck;
 import com.dreeling.applications.ocelli.server.core.managed.ESClientManager;
@@ -22,7 +24,9 @@ import com.dreeling.applications.ocelli.server.resources.CollectionResource;
 import com.dreeling.applications.ocelli.server.websocket.raw.SSHDataWebSocketServlet;
 
 public class OcelliServer extends Application<OcelliServerConfiguration> {
-
+	
+	private static final Logger logger = LoggerFactory.getLogger(OcelliServer.class);
+	
 	SSHStreamManager mgr;
 
 	public static void main(String[] args) throws Exception {
@@ -44,7 +48,7 @@ public class OcelliServer extends Application<OcelliServerConfiguration> {
 
 	@Override
 	public void initialize(Bootstrap<OcelliServerConfiguration> bootstrap) {
-		System.out.println("Bootstrapping...");
+		logger.debug("Bootstrapping...");
 		JobsBundle bdl = new JobsBundle(
 				"com.dreeling.applications.ocelli.server.jobs");
 		bootstrap.addBundle(bdl);

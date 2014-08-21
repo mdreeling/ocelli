@@ -14,9 +14,9 @@ import com.dreeling.applications.ocelli.server.domain.User;
 @RegisterMapper( ApplicationMapper.class)
 public interface ApplicationDao {
 
-	@SqlQuery("select * from Application where id = :id")
+	@SqlQuery("select * from application where id = :id")
 	Application findById(@Bind("id") String id);
 
-	@SqlQuery("select * from Application")
+	@SqlQuery("select * from application")
 	List<User> getAll();
 }

@@ -79,9 +79,10 @@ public class SSHStreamManager implements Managed {
 			JobBuilder jobBuilder = JobBuilder.newJob(clazz);
 			JobDetail jd = jobBuilder.build();
 			jd.getJobDataMap().put("app-id", 99999);
+			jd.getJobDataMap().put("job-id", art.hashCode());
 			scheduler.getContext().put(Utils.ELASTIC_SEARCH_INSTANCE, es);
-			scheduler.getContext().put(Utils.ARTIFACT_INFO, art);
-			scheduler.getContext().put(Utils.USER_INFO, u);
+			scheduler.getContext().put(art.hashCode()+Utils.ARTIFACT_INFO, art);
+			scheduler.getContext().put(art.hashCode()+Utils.USER_INFO, u);
 			scheduler.scheduleJob(jd, executeNowTrigger());
 		}
 	}

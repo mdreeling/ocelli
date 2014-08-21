@@ -6,3 +6,6 @@
 /ocelli-grails/target
 /grails-ocelli/target
 /grails-ocelli/target-eclipse
+
+logs/ocelli-server.log
+logs/example.log

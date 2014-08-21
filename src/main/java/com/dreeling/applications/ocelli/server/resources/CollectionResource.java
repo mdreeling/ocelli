@@ -11,6 +11,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.quartz.SchedulerException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.codahale.metrics.annotation.Timed;
 import com.dreeling.applications.ocelli.server.core.managed.ESClientManager;
@@ -22,11 +24,14 @@ import com.dreeling.applications.ocelli.server.domain.Application;
 import com.dreeling.applications.ocelli.server.domain.User;
 import com.dreeling.applications.ocelli.server.dto.ArtifactInfoDTO;
 import com.dreeling.applications.ocelli.server.dto.CollectionJobDTO;
+import com.dreeling.applications.ocelli.server.ssh.SSHAppService;
 import com.google.common.base.Optional;
 
 @Path("/collect")
 @Produces(MediaType.APPLICATION_JSON)
 public class CollectionResource {
+	
+	private static final Logger logger = LoggerFactory.getLogger(CollectionResource.class);
 	private final String template;
 	private final String defaultName;
 	private final AtomicLong counter;
@@ -67,11 +72,11 @@ public class CollectionResource {
 				for (Iterator iterator = arts.iterator(); iterator.hasNext();) {
 					ArtifactInfoDTO artifactInfoDTO = (ArtifactInfoDTO) iterator
 							.next();
-					System.out.println("Streaming data for " + app.getAppName()+" art = "+artifactInfoDTO.getArtifactLocation());
+					logger.debug("[" + app.getAppName()+"] Scheduling data stream job from node "+artifactInfoDTO.getNodeName()+" for Artifact ["+artifactInfoDTO.getArtifactLocation()+"]");
 					this.mgr.scheduleAdHocJob(esMgr,artifactInfoDTO,u);
 				}
 			} else {
-				System.out.println("App id " + value + " does not exist");
+				logger.error("App id " + value + " does not exist");
 			}
 		} catch (SchedulerException e) {
 			// TODO Auto-generated catch block

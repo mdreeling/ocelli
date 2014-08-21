@@ -9,7 +9,7 @@ import com.dreeling.applications.ocelli.server.domain.User;
 
 @RegisterMapper(UserMapper.class)
 public interface UserDao {
-    @SqlQuery("select u.user_id, u.email,k.data from User u "+
+    @SqlQuery("select u.user_id, u.email,k.data from user u "+
     		" INNER JOIN access_key k on k.id = u.access_key_id " +
     		" where email = :id")
     User findByEmail(@Bind("id") String email);
