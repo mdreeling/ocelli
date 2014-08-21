@@ -15,11 +15,12 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
 public class SSHAppService {
-	
-	private static final Logger logger = LoggerFactory.getLogger(SSHAppService.class);
-	
-	ElasticSearchConnector n;
 
+	private static final Logger logger = LoggerFactory
+			.getLogger(SSHAppService.class);
+
+	ElasticSearchConnector n;
+	private boolean doDiscardNl;
 	Session session = null;
 	String artifactLocation;
 
@@ -28,24 +29,24 @@ public class SSHAppService {
 			String artifactLocation) {
 		super();
 		try {
-			
-			logger.debug("Connecting to "+host+" as "+user);
-			
+
+			logger.debug("Connecting to " + host + " as " + user);
+
 			JSch jsch = new JSch();
 			JSch.setConfig("StrictHostKeyChecking", "no");
-			
+
 			/**
 			 * Just load the private key here - nothing else is required.
 			 */
-			jsch.addIdentity("key-pair", privateKey.getBytes(),
-					(byte[])null, (byte[])null);
-					
+			jsch.addIdentity("key-pair", privateKey.getBytes(), (byte[]) null,
+					(byte[]) null);
+
 			session = jsch.getSession(user, host, 22);
 			n = mgr.obtainClient();
 			this.artifactLocation = artifactLocation;
 		} catch (JSchException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(
+					"JSchException while connecting to " + session.getHost(), e);
 		}
 	}
 
@@ -56,10 +57,14 @@ public class SSHAppService {
 		try {
 			// run stuff
 			session.connect();
+
+			logger.debug("Connected to " + session.getHost() + " as "
+					+ session.getUserName());
 			
-			logger.debug("Connected to "+session.getHost()+" as "+session.getUserName());
-			
-			String command = "tail -100000 " + artifactLocation;
+			/*
+			 * By default tail 1GB of logs 
+			 */
+			String command = "tail -f -c 1000000000 " + artifactLocation;
 			Channel channel = session.openChannel("exec");
 			((ChannelExec) channel).setCommand(command);
 			channel.setInputStream(null);
@@ -74,26 +79,47 @@ public class SSHAppService {
 			logger.debug("Loading data to Elastic Search @"
 					+ System.currentTimeMillis() + "...");
 			while (true) {
-				while (input.available() > 0) {
-					int i = input.read(tmp, 0, 1024);
-					if (i < 0)
-						break;
-					n.postElasticSearch(session.getHost(),
-							new String(tmp, 0, i), session.getUserName());
+				StringBuilder sb = new StringBuilder();
+				int i;
+				while (0 <= (i = input.read())) {
+					if (i == '\n') {
+						if (doDiscardNl) {
+							doDiscardNl = false;
+						} else {
+							n.postElasticSearch(session.getHost(),
+									sb.toString(), session.getUserName());
+
+							sb.setLength(0);
+						}
+					} else {
+						doDiscardNl = false;
+						sb.append((char) i);
+						if (i == '\r') {
+							doDiscardNl = true;
+							n.postElasticSearch(session.getHost(),
+									sb.toString(), session.getUserName());
+
+							sb.setLength(0);
+						}
+					}
 				}
+
 				if (channel.isClosed()) {
-					logger.error("exit-status: "
-							+ channel.getExitStatus());
+					logger.debug("** No more data on stream");
+					logger.debug("exit-status: " + channel.getExitStatus());
 					break;
 				}
+
 			}
 
 			channel.disconnect();
 			session.disconnect();
 		} catch (JSchException e) {
-			logger.error("JSchException while connecting and streaming ["+artifactLocation+"] from "+session.getHost(), e);
+			logger.error("JSchException while connecting and streaming ["
+					+ artifactLocation + "] from " + session.getHost(), e);
 		} catch (IOException e) {
-			logger.error("IOException while connecting and streaming ["+artifactLocation+"] from "+session.getHost(), e);
+			logger.error("IOException while connecting and streaming ["
+					+ artifactLocation + "] from " + session.getHost(), e);
 		}
 	}
 }

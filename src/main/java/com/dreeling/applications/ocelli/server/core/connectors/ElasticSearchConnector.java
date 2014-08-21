@@ -20,15 +20,15 @@ public class ElasticSearchConnector {
 
 		Map<String, Object> jsonDocument = new HashMap<String, Object>();
 
-		jsonDocument.put("ocelli-data", data);
-		jsonDocument.put("insert-date", postDate);
+		jsonDocument.put("record", data);
+		jsonDocument.put("timestamp", postDate);
 		jsonDocument.put("streamed-by", user);
 
 		return jsonDocument;
 	}
 
 	public void postElasticSearch(String node, String data, String user) {
-		client.prepareIndex("sshsessions", "sessiondata")
+		client.prepareIndex("ocellidata", "sessiondata")
 				.setSource(putJsonDocument(data, new Date(), user)).execute()
 				.actionGet();
 	}
