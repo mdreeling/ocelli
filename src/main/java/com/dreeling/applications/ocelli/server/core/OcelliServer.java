@@ -38,7 +38,6 @@ public class OcelliServer extends Application<OcelliServerConfiguration> {
 	public static long TOTAL_TRANSACTION_TIME = 0;
 	public static long START_TIME = 0;
 	private static PrintWriter WRITER;
-	private static PrintWriter AVG_WRITER;
 	private static OcelliServerConfiguration config;
 	public static boolean KILL_ALL_JOBS = false;
 
@@ -76,7 +75,6 @@ public class OcelliServer extends Application<OcelliServerConfiguration> {
 		try {
 			config = configuration;
 			WRITER = new PrintWriter("tps_detail.out", "UTF-8");
-			AVG_WRITER = new PrintWriter("tps_avg.out", "UTF-8");
 			
 			final DBIFactory factory = new DBIFactory();
 			final DBI jdbi = factory.build(environment,

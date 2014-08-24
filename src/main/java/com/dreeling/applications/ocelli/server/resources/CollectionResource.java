@@ -60,7 +60,11 @@ public class CollectionResource {
 			@QueryParam("app_id") Optional<String> id,
 			@QueryParam("env_id") Optional<String> environment) {
 		
+		//RESET
 		OcelliServer.KILL_ALL_JOBS = false;
+		OcelliServer.TOTAL_TRANSACTION_TIME=0;
+		OcelliServer.TOTAL_TRANSACTIONS=0;
+		OcelliServer.TRANSACTIONS_PER_SECOND=0;
 		
 		final String value = id.or("-1");
 		try {
