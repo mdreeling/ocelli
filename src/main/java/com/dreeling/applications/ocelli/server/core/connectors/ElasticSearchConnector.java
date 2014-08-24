@@ -1,8 +1,6 @@
 package com.dreeling.applications.ocelli.server.core.connectors;
 
-import java.util.Collections;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,8 +8,6 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.node.Node;
 
 import com.newrelic.api.agent.NewRelic;
-import com.newrelic.api.agent.Request;
-import com.newrelic.api.agent.Response;
 import com.newrelic.api.agent.Trace;
 
 public class ElasticSearchConnector {
@@ -35,7 +31,7 @@ public class ElasticSearchConnector {
 		return jsonDocument;
 	}
 
-	@Trace(dispatcher = true)
+	@Trace
 	public void postElasticSearch(String node, String data, String user) {
 		
 		NewRelic.setTransactionName(null, "/es-post");
