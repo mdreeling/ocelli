@@ -37,6 +37,12 @@ public class ElasticSearchConnector {
 
 	@Trace(dispatcher = true)
 	public void postElasticSearch(String node, String data, String user) {
+		
+		NewRelic.setTransactionName(null, "/es-post");
+		NewRelic.setUserName(user);
+		NewRelic.addCustomParameter("node", node);
+		NewRelic.incrementCounter("Custom/ElasticSearchPost");
+		
 		client.prepareIndex("ocellidata", "sessiondata")
 				.setSource(putJsonDocument(node, data, new Date(), user))
 				.execute().actionGet();
