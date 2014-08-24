@@ -30,7 +30,7 @@ logging:
       # The timezone used to format dates. HINT: USE THE DEFAULT, UTC.
       timeZone: UTC
 
-elasticsearchHost: 54.201.91.195:9300
+elasticsearchHost: localhost:9300
 
 clusterName: elasticsearch
 

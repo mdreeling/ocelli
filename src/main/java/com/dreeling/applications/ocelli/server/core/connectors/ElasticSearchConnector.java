@@ -27,7 +27,7 @@ public class ElasticSearchConnector {
 		jsonDocument.put("record", data);
 		jsonDocument.put("timestamp", postDate);
 		jsonDocument.put("streamed-by", user);
-		jsonDocument.put("node", user);
+		jsonDocument.put("node", node);
 
 		return jsonDocument;
 	}
