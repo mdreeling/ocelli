@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.codahale.metrics.annotation.Timed;
+import com.dreeling.applications.ocelli.server.core.OcelliServer;
 import com.dreeling.applications.ocelli.server.core.managed.ESClientManager;
 import com.dreeling.applications.ocelli.server.core.managed.SSHStreamManager;
 import com.dreeling.applications.ocelli.server.dao.ApplicationDao;
@@ -24,7 +25,6 @@ import com.dreeling.applications.ocelli.server.domain.Application;
 import com.dreeling.applications.ocelli.server.domain.User;
 import com.dreeling.applications.ocelli.server.dto.ArtifactInfoDTO;
 import com.dreeling.applications.ocelli.server.dto.CollectionJobDTO;
-import com.dreeling.applications.ocelli.server.ssh.SSHAppService;
 import com.google.common.base.Optional;
 
 @Path("/collect")
@@ -59,6 +59,9 @@ public class CollectionResource {
 	public CollectionJobDTO initiateCollection(
 			@QueryParam("app_id") Optional<String> id,
 			@QueryParam("env_id") Optional<String> environment) {
+		
+		OcelliServer.KILL_ALL_JOBS = false;
+		
 		final String value = id.or("-1");
 		try {
 
