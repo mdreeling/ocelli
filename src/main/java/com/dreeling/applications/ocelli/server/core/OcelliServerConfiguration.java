@@ -23,8 +23,39 @@ public class OcelliServerConfiguration extends Configuration {
 	@JsonProperty
 	private DataSourceFactory database = new DataSourceFactory();
 
+	private long tpsCheckInterval = 1500;
+	private long simulationRunTimeMillis;
+	private boolean simulationMode = false;
+
+	@JsonProperty
+	public boolean getSimulationMode() {
+		return simulationMode;
+	}
+
+	public void setSimulationMode(boolean simulationMode) {
+		this.simulationMode = simulationMode;
+	}
+
 	@NotEmpty
 	private String template;
+
+	@JsonProperty
+	public long getTpsCheckInterval() {
+		return tpsCheckInterval;
+	}
+
+	public void setTpsCheckInterval(long tpsCheckInterval) {
+		this.tpsCheckInterval = tpsCheckInterval;
+	}
+
+	@JsonProperty
+	public long getSimulationRunTimeMillis() {
+		return simulationRunTimeMillis;
+	}
+
+	public void setSimulationRunTimeMillis(long simulationRunTimeMillis) {
+		this.simulationRunTimeMillis = simulationRunTimeMillis;
+	}
 
 	@NotEmpty
 	private String defaultName = "Stranger";

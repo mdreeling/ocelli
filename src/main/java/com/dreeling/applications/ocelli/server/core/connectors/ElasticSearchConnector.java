@@ -7,13 +7,14 @@ import java.util.Map;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.node.Node;
 
+import com.dreeling.applications.ocelli.server.core.OcelliServer;
 import com.newrelic.api.agent.NewRelic;
 import com.newrelic.api.agent.Trace;
 
 public class ElasticSearchConnector {
 	Client client;
 	Node node1;
-
+	
 	public ElasticSearchConnector(Client client) {
 		this.client = client;
 	}
@@ -31,16 +32,23 @@ public class ElasticSearchConnector {
 		return jsonDocument;
 	}
 
-	@Trace
+	@Trace(metricName="Ocelli Elastic Search Put", dispatcher=true)
 	public void postElasticSearch(String node, String data, String user) {
 		
-		NewRelic.setTransactionName(null, "/es-post");
-		NewRelic.setUserName(user);
-		NewRelic.addCustomParameter("node", node);
-		NewRelic.incrementCounter("Custom/ElasticSearchPost");
+
+		
+		long start = System.currentTimeMillis();
+		
+		if (OcelliServer.TOTAL_TRANSACTIONS == 0) {
+			OcelliServer.START_TIME = start;
+		}
 		
 		client.prepareIndex("ocellidata", "sessiondata")
 				.setSource(putJsonDocument(node, data, new Date(), user))
 				.execute().actionGet();
+		long end = System.currentTimeMillis();
+		
+		OcelliServer.addTransaction(start,end, user,node);
+		
 	}
 }

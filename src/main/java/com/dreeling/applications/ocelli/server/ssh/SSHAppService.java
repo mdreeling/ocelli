@@ -6,6 +6,7 @@ import java.io.InputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.dreeling.applications.ocelli.server.core.OcelliServer;
 import com.dreeling.applications.ocelli.server.core.connectors.ElasticSearchConnector;
 import com.dreeling.applications.ocelli.server.core.managed.ESClientManager;
 import com.jcraft.jsch.Channel;
@@ -81,7 +82,20 @@ public class SSHAppService {
 			while (true) {
 				StringBuilder sb = new StringBuilder();
 				int i;
+				
+				if(OcelliServer.KILL_ALL_JOBS)
+				{
+					break;
+				}
+				
 				while (0 <= (i = input.read())) {
+					
+					if(OcelliServer.KILL_ALL_JOBS)
+					{
+						logger.debug("** OCELLI HAS BEEN FORCE STOPPED **");
+						break;
+					}
+					
 					if (i == '\n') {
 						if (doDiscardNl) {
 							doDiscardNl = false;
@@ -109,7 +123,6 @@ public class SSHAppService {
 					logger.debug("exit-status: " + channel.getExitStatus());
 					break;
 				}
-
 			}
 
 			channel.disconnect();

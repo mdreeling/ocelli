@@ -30,8 +30,18 @@ logging:
       # The timezone used to format dates. HINT: USE THE DEFAULT, UTC.
       timeZone: UTC
 
-elasticsearchHost: localhost:9300
+elasticsearchHost: 54.201.91.195:9300
+
 clusterName: elasticsearch
+
+#Check the transactions per second every x transactions
+tpsCheckInterval: 1500
+
+# Simulation mode
+simulationMode: true
+
+# Simulations run for 5 minutes by default
+simulationRunTimeMillis: 300000
 
 server:
   applicationConnectors:
