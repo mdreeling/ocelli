@@ -7,6 +7,8 @@ import java.util.Map;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.node.Node;
 
+import com.newrelic.api.agent.Trace;
+
 public class ElasticSearchConnector {
 	Client client;
 	Node node1;
@@ -27,7 +29,8 @@ public class ElasticSearchConnector {
 
 		return jsonDocument;
 	}
-
+	
+	@Trace
 	public void postElasticSearch(String node, String data, String user) {
 		client.prepareIndex("ocellidata", "sessiondata")
 				.setSource(putJsonDocument(node, data, new Date(), user)).execute()

@@ -13,7 +13,9 @@ common: &default_settings
   # account.  This key binds your Agent's data to your account in the
   # New Relic service.
   license_key: 'a716bc906e881c3b654f9ee6cb1db4ba3b04df22'
-
+	
+  enable_custom_tracing: true
+  
   # Agent Enabled
   # Use this setting to disable the agent instead of removing it from the startup command.
   # Default is true.

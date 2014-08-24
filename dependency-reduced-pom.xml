@@ -80,6 +80,13 @@
       </plugin>
     </plugins>
   </build>
+  <repositories>
+    <repository>
+      <id>newrelic</id>
+      <name>newrelic</name>
+      <url>http://download.newrelic.com/</url>
+    </repository>
+  </repositories>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
