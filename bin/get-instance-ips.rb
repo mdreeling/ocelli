@@ -14,7 +14,7 @@ begin
 
 
 num = 1
-AWS.config(access_key_id: 'AKIAJUOOYGZJ6OOVXQJA', secret_access_key: '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', region: 'us-west-2')
+AWS.config(access_key_id: 'xxx', secret_access_key: 'xxx', region: 'us-west-2')
 ec2 = AWS::EC2.new
 puts "started: " + Time.now.to_s
   client.query "DELETE FROM environment_node"
