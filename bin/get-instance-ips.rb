@@ -3,7 +3,7 @@ require 'mysql2'
 
 
 begin
-	client = Mysql2::Client.new(:host => "ocelli-server.cximaxs7x3ws.us-west-2.rds.amazonaws.com", :username => "ocelli",:password => "test", :database => "ocelli_grails")
+	client = Mysql2::Client.new(:host => "ocelli-server.cximaxs7x3ws.us-west-2.rds.amazonaws.com", :username => "xxx",:password => "xxx", :database => "xxx")
 
     puts client.server_info
     rs = client.query 'SELECT VERSION()'
